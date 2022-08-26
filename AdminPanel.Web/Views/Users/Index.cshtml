@@ -1,0 +1,107 @@
+﻿@{
+    ViewData["Title"] = "Пользователи";
+}
+
+@using AdminPanel.Domain.Entities
+@model AdminPanel.Domain.Entities.User[]
+
+<a class="btn btn-primary" href=" /users/edit/">Добавить</a>
+
+<div class="bd-example-snippet bd-code-snippet">
+    <div class="bd-example">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Возраст</th>
+                <th scope="col">Город</th>
+                <th scope="col">Телефон</th>
+                <th scope="col">РольId</th>
+                <th scope="col">Email</th>
+                <th scope="col">Заметки</th>
+                <th scope="col">Пароль</th>
+                <th scope="col">Дата Создания</th>
+                <th scope="col">Дата Обновления</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (Model.Length > 0)
+            {
+                @foreach (User user in Model)
+                {
+                    <tr>
+                        <th scope="row">@user.Id</th>
+                        <td>@user.Name</td>
+                        <td>@user.Age</td>
+                        <td>@user.City</td>
+                        <td>@user.Phone</td>
+                        <td>@user.RoleId</td>
+                        <td>@user.Email</td>
+                        <td>@user.Note</td>
+                        <td>@user.Password</td>
+                        <td>@user.DateCreated</td>
+                        <td>@user.DateUpdated</td>
+                        <td>
+                            <a href="/users/edit/@user.Id">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+                        </td>
+                        <td>
+                        <a id="hlnkDelete" href='javascript:delete(@user.Id)' data-id='@user.Id' title="delete" class="text-red btnDelete">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </tr>
+                }
+            }
+            else
+            {
+                    <tr><td colspan="13">Нет данных</td></tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function() {
+
+            $(document).on("click", ".btnDelete", function() {
+                var currentButton = $(this);
+                var data = currentButton.data("id");
+                Swal.fire({
+                    title: 'Вы уверены?',
+                    text: "Вы не сможете отменить это!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Да, удалить!',
+                    cancelButtonText: 'Назад',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Удалено!', 
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        $.ajax({
+                            type: "DELETE",
+                            url: '@Url.Action("Delete")',
+                            data: { id: data },
+                            success: function(data) {
+                                currentButton.parents('tr').remove()
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                            }
+                        });
+                    }
+                })
+            });
+        });
+    </script>
+}
