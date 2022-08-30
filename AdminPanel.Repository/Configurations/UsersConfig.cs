@@ -1,7 +1,6 @@
 ﻿using AdminPanel.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.ComponentModel.DataAnnotations;
 
 namespace AdminPanel.Repository.Configurations
 {
@@ -10,7 +9,6 @@ namespace AdminPanel.Repository.Configurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder
-                 //System.ComponentModel.DataAnnotations.RequiredAttribute.GetCustomAttribute();
                 .Property(t => t.Age)
                 .IsRequired()
                 .HasColumnName("Age")
@@ -48,12 +46,6 @@ namespace AdminPanel.Repository.Configurations
                 .HasMaxLength(100)
                 .HasColumnName("Phone")
                 .HasColumnType("varchar");
-            //builder
-            //    .Property(b => b.Projects)
-            //    .HasMaxLength(100)
-            //    .HasColumnName("Projects")
-            //    .HasColumnType("varchar");
-
             //builder.HasOne(b => b.Role).WithMany(a => a.);
         }
     }   

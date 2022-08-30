@@ -1,6 +1,4 @@
-﻿using AdminPanel.Domain.Entities;
-using AdminPanel.Repository;
-using AdminPanel.Web.Models;
+﻿using AdminPanel.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

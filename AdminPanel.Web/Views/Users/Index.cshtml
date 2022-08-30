@@ -5,7 +5,7 @@
 @using AdminPanel.Domain.Entities
 @model AdminPanel.Domain.Entities.User[]
 
-<a class="btn btn-primary" href=" /users/edit/">Добавить</a>
+<a class="btn btn-primary" href="/users/edit/">Добавить</a>
 
 <div class="bd-example-snippet bd-code-snippet">
     <div class="bd-example">
@@ -65,43 +65,50 @@
     </div>
 </div>
 
-@section scripts{
+@section scripts {
     <script>
         $(document).ready(function() {
-
-            $(document).on("click", ".btnDelete", function() {
-                var currentButton = $(this);
-                var data = currentButton.data("id");
-                Swal.fire({
-                    title: 'Вы уверены?',
-                    text: "Вы не сможете отменить это!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Да, удалить!',
-                    cancelButtonText: 'Назад',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Удалено!', 
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-                        $.ajax({
-                            type: "DELETE",
-                            url: '@Url.Action("Delete")',
-                            data: { id: data },
-                            success: function(data) {
-                                currentButton.parents('tr').remove()
-                            },
-                            error: function(jqXHR, textStatus, errorThrown) {
-                            }
-                        });
-                    }
-                })
-            });
+            $(document).on("click",
+                ".btnDelete",
+                function() {
+                    var currentButton = $(this);
+                    var currentId = currentButton.data("id");
+                    Swal.fire({
+                        title: 'Вы уверены?',
+                        text: "Вы не сможете отменить это!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Да, удалить!',
+                        cancelButtonText: 'Назад'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Удалено!',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            $.ajax({
+                                type: "DELETE",
+                                url: '@Url.Action("Delete")',
+                                data: { id: currentId },
+                                success: function() {
+                                    currentButton.parents('tr').remove();
+                                },
+                                error: function() {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Упс, произошла ошибка!',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });
+                                }
+                            });
+                        }
+                    })
+                });
         });
     </script>
 }
