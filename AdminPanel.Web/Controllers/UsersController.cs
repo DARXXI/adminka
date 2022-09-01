@@ -15,6 +15,7 @@ namespace AdminPanel.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int? id, CancellationToken cancellationToken)
         {
+            ViewBag.Roles = Context.Roles.ToArray();
             var user = id !=null ? await Context.Users.FindAsync(new object?[] { id }, cancellationToken) : new User();
             return View(user);
         }

@@ -42,10 +42,11 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    
     <script src="~/lib/sweetalert2/sweetalert2.all.js"></script>
     <script src="~/lib/sweetalert2/324dccf590.js" crossorigin="anonymous"></script>
-
-    @await RenderSectionAsync("Scripts", required: false)
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript" src="~/lib/jquery/dist/messages_ru.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

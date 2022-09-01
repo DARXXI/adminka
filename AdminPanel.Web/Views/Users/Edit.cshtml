@@ -1,6 +1,7 @@
 ﻿@using AdminPanel.Domain.Entities
 @model AdminPanel.Domain.Entities.User
 
+
 <form method="post" asp-action="Edit" asp-controller="Users" asp-route-id="@Model.Id" asp-antiforgery="true" id="editForm">
     <input type="hidden" class="form-control"  name="DateCreated" value="@Model.DateCreated">
     <input type="hidden" class="form-control"  name="DateUpdated" value="@Model.DateUpdated">
@@ -17,57 +18,58 @@
         <div class="mb-3 row">
             <label for="inputName" class="col-sm-1 col-form-label col-md-1">Имя</label>
             <div class="col-sm-2">
-                <input type="text" class="form-control" id="inputName" name="Name" value="@Model.Name" required minlength="2">
-                <span asp-validation-for="Name"/>
+                <input type="text" class="form-control" id="inputName" name="Name" value="@Model.Name">
             </div>
         </div>
         <div class="mb-3 row">
             <label for="inputAge" class="col-sm-1 col-form-label col-md-1">Возраст</label>
             <div class="col-sm-2">
-                <input type="number" class="form-control" id="inputAge" name="Age" value="@Model.Age" required max="100">
-                <span asp-validation-for="Age"/>
+                <input type="number" class="form-control" id="inputAge" name="Age" value="@Model.Age">
             </div>
         </div>
         <div class="mb-3 row">
             <label for="inputCity" class="col-sm-1 col-form-label col-md-1">Город</label>
             <div class="col-sm-2">
-                <input type="text" class="form-control" id="inputCity" name="City" value="@Model.City" required>
-                <span asp-validation-for="City"/>
+                <input type="text" class="form-control" id="inputCity" name="City" value="@Model.City">
             </div>
         </div>
         <div class="mb-3 row">
             <label for="inputPhone" class="col-sm-1 col-form-label col-md-1">Телефон</label>
             <div class="col-sm-2">
-                <input type="text" class="form-control" id="inputPhone" name="Phone" value="@Model.Phone" required>
-                <span asp-validation-for="Phone"/>
+                <input type="text" class="form-control" id="inputPhone" name="Phone" value="@Model.Phone">
             </div>
         </div>
         <div class="mb-3 row">
             <label for="inputRoleId" class="col-sm-1 col-form-label col-md-1">RoleId</label>
             <div class="col-sm-2">
-                <input type="text" class="form-control" id="inputRoleId" name="RoleId" value="@Model.RoleId" required>
-                <span asp-validation-for="RoleId"/>
+                <input type="text" class="form-control" id="inputRoleId" name="RoleId" value="@Model.RoleId">
             </div>
+        </div>
+        <div class="mb-3 row">
+            <label class="col-sm-1 col-md-1">Role</label>
+            <select name="Role">
+                @foreach (Role role in ViewBag.Roles)
+                {
+                    <option value="@role.Name">@role.Name</option>
+                }
+            </select>
         </div>
         <div class="mb-3 row">
             <label for="inputEmail" class="col-sm-1 col-form-label col-md-1">Email</label>
             <div class="col-sm-2">
-                <input type="text" class="form-control" id="inputEmail" name="Email" value="@Model.Email" required>
-                <span asp-validation-for="Email"/>
+                <input type="text" class="form-control" id="inputEmail" name="Email" value="@Model.Email">
             </div>
         </div>
         <div class="mb-3 row">
             <label for="inputNote" class="col-sm-1 col-form-label col-md-1">Заметки</label>
             <div class="col-sm-2">
-                <input type="text" class="form-control" id="inputNote" name="Note" value="@Model.Note" required>
-                <span asp-validation-for="Note"/>
+                <input type="text" class="form-control" id="inputNote" name="Note" value="@Model.Note">
             </div>
         </div>
         <div class="mb-3 row">
             <label for="inputPassword" class="col-sm-1 col-form-label col-md-1">Password</label>
             <div class="col-sm-2">
-                <input type="password" class="form-control" id="inputPassword" name="Password" value="@Model.Password" required>
-                <span asp-validation-for="Password"/>
+                <input type="password" class="form-control" id="inputPassword" name="Password" value="@Model.Password">
             </div>
         </div>
     </div>
@@ -78,9 +80,51 @@
 </form>
 
 @section scripts{
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script>
-        $("#editForm").validate();
+        $("#editForm").validate({
+            rules: {
+                Name: {
+                    required: true,
+                    minlength: 1,
+                    maxlength: 36
+                },
+                Age: {
+                    required: true,
+                    digits: true,
+                    minlength: 1,
+                    maxlength: 3
+                },
+                City: {
+                    required: true,
+                    minlength: 1,
+                    maxlength: 100
+                },
+                Phone: {
+                    required: true,
+                    minlength: 1,
+                    maxlength: 25
+                },
+                RoleId: {
+                    required: true,
+                    minlength: 1,
+                    maxlength: 36
+                },
+                Email: {
+                    required: true,
+                    minlength: 1,
+                    email: true,
+                    maxlength: 100
+                },
+                Note: {
+                    minlength: 1,
+                    maxlength: 100
+                },
+                Password: {
+                    required: true,
+                    minlength: 1,
+                    maxlength: 36
+                }
+            }
+        });
     </script>
 }
